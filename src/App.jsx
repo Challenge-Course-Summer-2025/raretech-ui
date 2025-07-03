@@ -1,31 +1,31 @@
-import { useState } from 'react'
-import './App.css'
-import Button from './components/TestClsx'
+import React from 'react';
+import Header from './layouts/Header'; 
 
-function App() {
-  const [button, setButton] = useState(false);
-
-  const handleButtonClick = () => {
-    setButton(!button); 
-    // alert(`ボタンの状態が ${button ? "非アクティブ" : "アクティブ"} に変わりました！`);
-  };
-
+const App = () => {
   return (
-    <div className="min-h-screen  flex items-center justify-center bg-sky-900">
-      <div className="bg-white p-8 rounded-lg shadow-md justify-center">
-        <h1 className="text-3xl font-bold text-gray-800 mb-4">
-          Hello!
-        </h1>
-        <p className="text-gray-600 mb-4">
-          開発環境が正常に構築されました。
-        </p>
-        
-        <Button isActive={button} onClick={handleButtonClick}>
+    <div className="min-h-screen bg-gray-100 font-sans antialiased">
+      {/* Tailwind CSSを読み込むためのスクリプト */}
+      <script src="https://cdn.tailwindcss.com"></script>
+      {/* Interフォントを読み込むためのスクリプト */}
+      <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
+      <style>
+        {`
+          body {
+            font-family: 'Inter', sans-serif;
+          }
+        `}
+      </style>
 
-        </Button>
-      </div>
+      {/* Headerコンポーネントをレンダリング */}
+      <Header />
+
+      <main className="container mx-auto p-4 mt-8">
+        {/* ここに他のコンテンツを追加できます */}
+        <h2 className="text-2xl font-bold text-gray-800 mb-4">メインコンテンツ</h2>
+        <p className="text-gray-600">ここにダッシュボードの統計やグラフなどのメインコンテンツが表示されます。</p>
+      </main>
     </div>
-  )
-}
+  );
+};
 
-export default App
+export default App;
