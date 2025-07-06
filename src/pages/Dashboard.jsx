@@ -54,7 +54,7 @@ const Dashboard = () => {
 				{/* 直近の投稿効果 */}
 				<div className="bg-white p-6 rounded-lg shadow-md">
 					<h3 className="text-lg font-semibold mb-4 flex items-center">
-						📊 直近の投稿効果
+						📈 直近の投稿効果
 					</h3>
 					<div className="space-y-3">
 						<div className="flex justify-between items-center">
