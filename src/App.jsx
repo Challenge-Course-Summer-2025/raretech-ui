@@ -3,7 +3,7 @@ import Navigation from "./components/Navigation";
 import Header from "./layouts/Header";
 import Dashboard from "./pages/Dashboard";
 import Settings from "./pages/Settings";
-import XPostHistory from "./pages/XPostHisttory";
+import XPostHistory from "./pages/XPostHistory";
 
 const App = () => {
 	return (
