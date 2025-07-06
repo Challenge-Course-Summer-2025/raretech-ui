@@ -5,8 +5,8 @@ const InfoCard = ({ title, items }) => {
 				{title}
 			</h3>
 			<div className="space-y-3">
-				{items.map((item, index) => (
-					<div key={index} className="flex justify-between items-center">
+				{items.map((item) => (
+					<div key={item.id} className="flex justify-between items-center">
 						{item.type === 'status' ? (
 							<>
 								<span>{item.label}</span>
