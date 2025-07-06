@@ -1,80 +1,68 @@
+import InfoCard from "../components/InfoCard";
+import StatsCard from "../components/StatsCard";
+
 const Dashboard = () => {
+	const botStatusData = [
+		{
+			type: 'status',
+			label: 'Qiita記事チェック',
+			value: '15分毎実行',
+			valueColor: 'text-blue-600'
+		},
+		{
+			type: 'status',
+			label: 'X API接続',
+			value: '正常',
+			valueColor: 'text-green-600'
+		},
+		{
+			type: 'status',
+			label: '今日の投稿記事',
+			value: '3件',
+			valueColor: 'text-blue-600'
+		},
+		{
+			type: 'status',
+			label: '投稿済み',
+			value: '2件',
+			valueColor: 'text-blue-600'
+		}
+	];
+
+	const postPerformanceData = [
+		{
+			type: 'post',
+			time: '14:30',
+			title: 'AWS Lambda入門',
+			author: '田中一郎さん',
+			clicks: 'クリック23件'
+		},
+		{
+			type: 'post',
+			time: '11:20',
+			title: 'React Hook活用',
+			author: '山田太郎さん',
+			clicks: 'クリック18件'
+		}
+	];
+
 	return (
 		<main className="container mx-auto p-6">
-			{/* 
-            統計カード 
-            後でカードコンポーネントに入れる
-        */}
+			{/* 統計カード */}
 			<div className="grid grid-cols-1 md:grid-cols-4 gap-6 mb-8">
-				<div className="bg-white p-6 rounded-lg shadow-md text-center">
-					<div className="text-3xl font-bold text-blue-600 mb-2">15</div>
-					<div className="text-gray-600">今月の投稿数</div>
-				</div>
-				<div className="bg-white p-6 rounded-lg shadow-md text-center">
-					<div className="text-3xl font-bold text-blue-600 mb-2">234</div>
-					<div className="text-gray-600">総クリック数</div>
-				</div>
-				<div className="bg-white p-6 rounded-lg shadow-md text-center">
-					<div className="text-3xl font-bold text-blue-600 mb-2">3.2%</div>
-					<div className="text-gray-600">CTR</div>
-				</div>
-				<div className="bg-white p-6 rounded-lg shadow-md text-center">
-					<div className="text-3xl font-bold text-blue-600 mb-2">0</div>
-					<div className="text-gray-600">エラー件数</div>
-				</div>
+				<StatsCard value="15" label="今月の投稿数" />
+				<StatsCard value="234" label="総クリック数" />
+				<StatsCard value="3.2%" label="CTR" />
+				<StatsCard value="0" label="エラー件数" />
 			</div>
 
 			{/* メインコンテンツ */}
 			<div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
 				{/* 自動投稿botの状況 */}
-				<div className="bg-white p-6 rounded-lg shadow-md">
-					<h3 className="text-lg font-semibold mb-4 flex items-center">
-						🤖 自動投稿botの状況
-					</h3>
-					<div className="space-y-3">
-						<div className="flex justify-between items-center">
-							<span>Qiita記事チェック</span>
-							<span className="text-blue-600">15分毎実行</span>
-						</div>
-						<div className="flex justify-between items-center">
-							<span>X API接続</span>
-							<span className="text-green-600">正常</span>
-						</div>
-						<div className="flex justify-between items-center">
-							<span>今日の投稿記事</span>
-							<span className="text-blue-600">3件</span>
-						</div>
-						<div className="flex justify-between items-center">
-							<span>投稿済み</span>
-							<span className="text-blue-600">2件</span>
-						</div>
-					</div>
-				</div>
+				<InfoCard title="🤖 自動投稿botの状況" items={botStatusData} />
 
 				{/* 直近の投稿効果 */}
-				<div className="bg-white p-6 rounded-lg shadow-md">
-					<h3 className="text-lg font-semibold mb-4 flex items-center">
-						📊 直近の投稿効果
-					</h3>
-					<div className="space-y-3">
-						<div className="flex justify-between items-center">
-							<div>
-								<div className="text-sm text-gray-500">14:30</div>
-								<div className="font-medium">AWS Lambda入門</div>
-								<div className="text-sm text-gray-500">田中一郎さん</div>
-							</div>
-							<div className="text-blue-600">クリック23件</div>
-						</div>
-						<div className="flex justify-between items-center">
-							<div>
-								<div className="text-sm text-gray-500">11:20</div>
-								<div className="font-medium">React Hook活用</div>
-								<div className="text-sm text-gray-500">山田太郎さん</div>
-							</div>
-							<div className="text-blue-600">クリック18件</div>
-						</div>
-					</div>
-				</div>
+				<InfoCard title="📊 直近の投稿効果" items={postPerformanceData} />
 			</div>
 
 			{/* システム概要 */}
