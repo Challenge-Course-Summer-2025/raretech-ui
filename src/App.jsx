@@ -1,4 +1,3 @@
-// import React from "react";
 import { Route, BrowserRouter as Router, Routes } from "react-router-dom";
 import Navigation from "./components/Navigation";
 import Header from "./layouts/Header";

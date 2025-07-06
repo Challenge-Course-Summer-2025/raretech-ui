@@ -1,0 +1,61 @@
+name: CI
+permissions: {}
+
+defaults:
+  run:
+    shell: bash
+
+on:
+  push:
+    branches:  
+        - main 
+  pull_request:
+    branches:
+        - main
+    paths:
+        - 'src/**' 
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  lint:
+    name: Lint
+    runs-on: ubuntu-latest        
+    timeout-minutes: 10
+    steps:
+      - name: Checkout Repo
+        uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
+
+      - name: Setup & Run Lint    
+        uses: ./.github/actions/setup
+        with:
+          script: lint
+
+  Format:
+    name: Format
+    runs-on: ubuntu-latest        
+    timeout-minutes: 10
+    steps:
+      - name: Checkout Repo
+        uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
+
+      - name: Setup & Run Format    
+        uses: ./.github/actions/setup
+        with:
+          script: format
+
+  build:
+    name: Build & Type-Check
+    needs: lint
+    runs-on: ubuntu-latest        
+    timeout-minutes: 10
+    steps:
+      - name: Checkout Repo
+        uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
+      
+      - name: Setup & Run Build
+        uses: ./.github/actions/setup
+        with:
+          script: build
