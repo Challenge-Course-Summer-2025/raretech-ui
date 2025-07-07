@@ -1,16 +1,16 @@
 const InfoCard = ({ title, items }) => {
 	return (
 		<div className="bg-white p-6 rounded-lg shadow-md">
-			<h3 className="text-lg font-semibold mb-4 flex items-center">
-				{title}
-			</h3>
+			<h3 className="text-lg font-semibold mb-4 flex items-center">{title}</h3>
 			<div className="space-y-3">
 				{items.map((item) => (
 					<div key={item.id} className="flex justify-between items-center">
-						{item.type === 'status' ? (
+						{item.type === "status" ? (
 							<>
 								<span>{item.label}</span>
-								<span className={item.valueColor || "text-blue-600"}>{item.value}</span>
+								<span className={item.valueColor || "text-blue-600"}>
+									{item.value}
+								</span>
 							</>
 						) : (
 							<>
