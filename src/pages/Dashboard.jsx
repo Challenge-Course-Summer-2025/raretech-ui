@@ -4,52 +4,52 @@ import StatsCard from "../components/StatsCard";
 const Dashboard = () => {
 	const botStatusData = [
 		{
-			id: 'stats-1',
-			type: 'status',
-			label: 'Qiita記事チェック',
-			value: '15分毎実行',
-			valueColor: 'text-blue-600'
+			id: "stats-1",
+			type: "status",
+			label: "Qiita記事チェック",
+			value: "15分毎実行",
+			valueColor: "text-blue-600",
 		},
 		{
-			id: 'stats-2',
-			type: 'status',
-			label: 'X API接続',
-			value: '正常',
-			valueColor: 'text-green-600'
+			id: "stats-2",
+			type: "status",
+			label: "X API接続",
+			value: "正常",
+			valueColor: "text-green-600",
 		},
 		{
-			id: 'stats-3',
-			type: 'status',
-			label: '今日の投稿記事',
-			value: '3件',
-			valueColor: 'text-blue-600'
+			id: "stats-3",
+			type: "status",
+			label: "今日の投稿記事",
+			value: "3件",
+			valueColor: "text-blue-600",
 		},
 		{
-			id: 'stats-4',
-			type: 'status',
-			label: '投稿済み',
-			value: '2件',
-			valueColor: 'text-blue-600'
-		}
+			id: "stats-4",
+			type: "status",
+			label: "投稿済み",
+			value: "2件",
+			valueColor: "text-blue-600",
+		},
 	];
 
 	const postPerformanceData = [
 		{
-			id: 'info-1',
-			type: 'post',
-			time: '14:30',
-			title: 'AWS Lambda入門',
-			author: '田中一郎さん',
-			clicks: 'クリック23件'
+			id: "info-1",
+			type: "post",
+			time: "14:30",
+			title: "AWS Lambda入門",
+			author: "田中一郎さん",
+			clicks: "クリック23件",
 		},
 		{
-			id: 'info-2',
-			type: 'post',
-			time: '11:20',
-			title: 'React Hook活用',
-			author: '山田太郎さん',
-			clicks: 'クリック18件'
-		}
+			id: "info-2",
+			type: "post",
+			time: "11:20",
+			title: "React Hook活用",
+			author: "山田太郎さん",
+			clicks: "クリック18件",
+		},
 	];
 
 	return (
