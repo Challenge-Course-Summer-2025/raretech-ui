@@ -24,14 +24,12 @@ runs:
       uses: actions/cache@5a3ec84eff668545956fd18022155c47e93e2684
       with:
         path: node_modules
-        key: ${{ runner.os }}-npm-${{ hashFiles('**/package-lock.json') }}
+        key: ${{ runner.os }}-bun-${{ hashFiles('**/bun.lock') }}
         restore-keys: |
-          ${{ runner.os }}-npm-
-    - run: npm ci
-      shell: bash
+          ${{ runner.os }}-bun-
 
-    - name: Run npm script
-      run: npm run ${{ inputs.script }}
+    - name: Run bun script
+      run: bun run ${{ inputs.script }}
       shell: bash
 
 outputs:

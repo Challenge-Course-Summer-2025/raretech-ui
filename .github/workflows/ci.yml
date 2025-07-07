@@ -33,7 +33,7 @@ jobs:
         with:
           script: lint
 
-  Format:
+  format:
     name: Format
     runs-on: ubuntu-latest        
     timeout-minutes: 10
@@ -47,8 +47,8 @@ jobs:
           script: format
 
   build:
-    name: Build & Type-Check
-    needs: [lint, Format]
+    name: Build 
+    needs: [lint, format]
     runs-on: ubuntu-latest        
     timeout-minutes: 10
     steps:
