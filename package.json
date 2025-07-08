@@ -12,11 +12,6 @@
 		"format": "bunx --bun biome format --write .",
 		"prepare": "husky"
 	},
-	"lint-staged": {
-		"*": [
-			"bunx --bun biome check --write"
-		]
-	},
 	"dependencies": {
 		"@tailwindcss/vite": "^4.1.11",
 		"clsx": "^2.1.1",
@@ -26,7 +21,7 @@
 		"react-router-dom": "^7.6.3"
 	},
 	"devDependencies": {
-		"@biomejs/biome": "^2.0.6",
+		"@biomejs/biome": "^2.1.0",
 		"@eslint/js": "^9.29.0",
 		"@types/eslint": "^9.6.1",
 		"@types/react": "^19.1.8",
