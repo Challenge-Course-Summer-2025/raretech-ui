@@ -4,6 +4,8 @@ import Header from "./layouts/Header";
 import Dashboard from "./pages/Dashboard";
 import Settings from "./pages/Settings";
 import XPostHistory from "./pages/XPostHistory";
+import Analytics from "./pages/Analytics";
+import Effective from "./pages/EffectMeasurement";
 
 const App = () => {
 	return (
@@ -14,6 +16,8 @@ const App = () => {
 				<Routes>
 					<Route path="/" element={<Dashboard />} />
 					<Route path="/x-post-history" element={<XPostHistory />} />
+					<Route path="/analytics" element={<Analytics />} />
+					<Route path="/effective" element={<Effective />} />
 					<Route path="/settings" element={<Settings />} />
 				</Routes>
 			</Router>

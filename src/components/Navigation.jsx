@@ -1,4 +1,4 @@
-import { Home, List, Settings } from "lucide-react";
+import { Home, List, Settings, ChartSpline, ScrollText } from "lucide-react";
 import { Link, useLocation } from "react-router-dom";
 
 const Navigation = () => {
@@ -34,6 +34,30 @@ const Navigation = () => {
 					>
 						<List size={18} />
 						<span>X投稿履歴</span>
+					</Link>
+
+					<Link
+						to="/analytics"
+						className={`flex items-center space-x-2 font-semibold py-2 px-4 rounded-full shadow-md transition duration-300 ease-in-out whitespace-nowrap ${
+							isActive("/analytics")
+								? "bg-amber-500 hover:bg-amber-600 text-blue-900"
+								: "bg-blue-600 hover:bg-blue-500 text-white"
+						}`}
+					>
+						<ScrollText size={18} />
+						<span>記事検出ログ</span>
+					</Link>
+
+					<Link
+						to="/effective"
+						className={`flex items-center space-x-2 font-semibold py-2 px-4 rounded-full shadow-md transition duration-300 ease-in-out whitespace-nowrap ${
+							isActive("/effective")
+								? "bg-amber-500 hover:bg-amber-600 text-blue-900"
+								: "bg-blue-600 hover:bg-blue-500 text-white"
+						}`}
+					>
+						<ChartSpline size={18} />
+						<span>効果測定</span>
 					</Link>
 
 					<Link
