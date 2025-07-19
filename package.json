@@ -34,6 +34,7 @@
 		"globals": "^16.2.0",
 		"husky": "^9.1.7",
 		"postcss": "^8.5.6",
+		"recharts": "^3.1.0",
 		"rollup": "^4.44.2",
 		"tailwindcss": "^4.1.11",
 		"vite": "^6.3.5",

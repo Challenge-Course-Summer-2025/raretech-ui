@@ -12,13 +12,6 @@ const Header = () => {
 						<h1 className="text-2xl font-bold">RareTECH</h1>
 					</div>
 				</div>
-				{/* 運用管理画面ボタン */}
-				<button
-					type="button"
-					className="bg-blue-600 hover:bg-blue-500 text-white font-semibold py-2 px-4 rounded-full shadow-md transition duration-300 ease-in-out"
-				>
-					運用管理画面
-				</button>
 			</div>
 		</header>
 	);
