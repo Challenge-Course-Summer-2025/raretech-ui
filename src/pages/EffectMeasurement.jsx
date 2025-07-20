@@ -1,4 +1,4 @@
-import LikeTrendChart from "../components/Chart/LineChart";
+import LikeTrendChart from "../components/chart/LineChart";
 import CVRateChart from "../components/chart/CVRateChart";
 import SectionHeader from "../layouts/SectionHeader";
 import { MousePointerClick, HeartPlus } from "lucide-react";
