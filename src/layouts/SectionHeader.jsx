@@ -1,3 +1,4 @@
+// 小見出し用のコンポーネント（chartに使用）
 const SectionHeader = ({ title, icon }) => (
 	<div className="flex items-center gap-3 mb-6">
 		{icon && <div className="text-blue-700">{icon}</div>}
