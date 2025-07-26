@@ -2,7 +2,6 @@ import { Route, BrowserRouter as Router, Routes } from "react-router-dom";
 import Dashboard from "./pages/Dashboard";
 import Settings from "./pages/Settings";
 import XPostHistory from "./pages/XPostHistory";
-import Analytics from "./pages/Analytics";
 import Effective from "./pages/EffectMeasurement";
 import LoginPage from "./pages/Login";
 import MainLayout from "./components/MainLayout";
@@ -17,7 +16,6 @@ const App = () => {
 					<Route element={<MainLayout />}>
 						<Route path="/" element={<Dashboard />} />
 						<Route path="/x-post-history" element={<XPostHistory />} />
-						<Route path="/analytics" element={<Analytics />} />
 						<Route path="/effective" element={<Effective />} />
 						<Route path="/settings" element={<Settings />} />
 					</Route>
