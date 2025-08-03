@@ -1,7 +1,30 @@
+import { useState, useEffect } from "react";
 import InfoCard from "../components/InfoCard";
 import StatsCard from "../components/StatsCard";
+import { fetchDashboardData } from "../api/dashboard";
 
 const Dashboard = () => {
+	const [dashboardData, setDashboardData] = useState(null);
+	const [loading, setLoading] = useState(true);
+	const [error, setError] = useState(null);
+
+	useEffect(() => {
+		const loadDashboardData = async () => {
+			try {
+				setLoading(true);
+				const data = await fetchDashboardData();
+				setDashboardData(data);
+				setError(null);
+			} catch (err) {
+				setError(err.message);
+			} finally {
+				setLoading(false);
+			}
+		};
+
+		loadDashboardData();
+	}, []);
+
 	const botStatusData = [
 		{
 			id: "stats-1",
@@ -21,45 +44,70 @@ const Dashboard = () => {
 			id: "stats-3",
 			type: "status",
 			label: "今日の投稿記事",
-			value: "3件",
+			value: dashboardData?.summary?.total_posts || "0件",
 			valueColor: "text-blue-600",
 		},
 		{
 			id: "stats-4",
 			type: "status",
 			label: "投稿済み",
-			value: "2件",
+			value: dashboardData?.summary?.total_posts || "0件",
 			valueColor: "text-blue-600",
 		},
 	];
 
-	const postPerformanceData = [
-		{
-			id: "info-1",
+	const postPerformanceData =
+		dashboardData?.latest_posts?.map((post, index) => ({
+			id: `info-${index + 1}`,
 			type: "post",
-			time: "14:30",
-			title: "AWS Lambda入門",
-			author: "田中一郎さん",
-			clicks: "クリック23件",
-		},
-		{
-			id: "info-2",
-			type: "post",
-			time: "11:20",
-			title: "React Hook活用",
-			author: "山田太郎さん",
-			clicks: "クリック18件",
-		},
-	];
+			time: new Date(post.created_at).toLocaleTimeString("ja-JP", {
+				hour: "2-digit",
+				minute: "2-digit",
+			}),
+			title: post.title,
+			author: post.author || "不明",
+			clicks: `クリック${post.click_count || 0}件`,
+		})) || [];
+
+	if (loading) {
+		return (
+			<main className="container mx-auto p-6">
+				<div className="flex justify-center items-center h-64">
+					<div className="text-lg">データを読み込み中...</div>
+				</div>
+			</main>
+		);
+	}
+
+	if (error) {
+		return (
+			<main className="container mx-auto p-6">
+				<div className="bg-red-50 border border-red-200 rounded-lg p-4">
+					<div className="text-red-800">
+						<strong>エラー:</strong> {error}
+					</div>
+				</div>
+			</main>
+		);
+	}
 
 	return (
 		<main className="container mx-auto p-6">
 			{/* 統計カード */}
 			<div className="grid grid-cols-1 md:grid-cols-4 gap-6 mb-8">
-				<StatsCard value="15" label="今月の投稿数" />
-				<StatsCard value="234" label="総クリック数" />
-				<StatsCard value="3.2%" label="CTR" />
-				<StatsCard value="0" label="エラー件数" />
+				<StatsCard
+					value={dashboardData?.summary?.total_posts?.toString() || "0"}
+					label="今月の投稿数"
+				/>
+				<StatsCard
+					value={dashboardData?.summary?.total_clicks?.toString() || "0"}
+					label="総クリック数"
+				/>
+				<StatsCard value={`${dashboardData?.summary?.ctr || 0}%`} label="CTR" />
+				<StatsCard
+					value={dashboardData?.summary?.error_count?.toString() || "0"}
+					label="エラー件数"
+				/>
 			</div>
 
 			{/* メインコンテンツ */}
