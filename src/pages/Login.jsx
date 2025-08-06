@@ -3,6 +3,7 @@ import { Eye, EyeOff } from "lucide-react";
 import RareTECH from "../assets/raretech.png";
 import clsx from "clsx";
 import { useNavigate } from "react-router-dom";
+import { login } from "../api/auth";
 
 export default function LoginPage() {
 	const [email, setEmail] = useState("");
@@ -24,11 +25,10 @@ export default function LoginPage() {
 		setIsLoading(true);
 		setErrors({}); // エラーをクリアさせる
 		try {
-			// TODO: FastAPIと連携させる
-			await new Promise((resolve) => setTimeout(resolve, 1000));
+			await login(email, password);
 			navigate("/");
-		} catch (_error) {
-			setErrors({ submit: "ログインに失敗しました" });
+		} catch (error) {
+			setErrors({ submit: error.message });
 		} finally {
 			setIsLoading(false);
 		}

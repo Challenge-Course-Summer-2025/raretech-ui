@@ -1,8 +1,13 @@
-const API_BASE_URL = process.env.API_BASE_URL || "http://localhost:8000";
+import { authenticatedFetch } from "./auth";
+
+const API_BASE_URL =
+	import.meta.env.VITE_API_BASE_URL || "http://localhost:8000";
 
 export const fetchDashboardData = async () => {
 	try {
-		const response = await fetch(`${API_BASE_URL}/api/dashboard/`);
+		const response = await authenticatedFetch(
+			`${API_BASE_URL}/api/dashboard/dashboard`,
+		);
 
 		if (!response.ok) {
 			throw new Error(`HTTP error! status: ${response.status}`);
