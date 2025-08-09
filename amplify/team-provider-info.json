@@ -1,0 +1,20 @@
+{
+	"dev": {
+		"awscloudformation": {
+			"AuthRoleName": "amplify-raretechui-dev-07467-authRole",
+			"UnauthRoleArn": "arn:aws:iam::881490128743:role/amplify-raretechui-dev-07467-unauthRole",
+			"AuthRoleArn": "arn:aws:iam::881490128743:role/amplify-raretechui-dev-07467-authRole",
+			"Region": "ap-northeast-1",
+			"DeploymentBucketName": "amplify-raretechui-dev-07467-deployment",
+			"UnauthRoleName": "amplify-raretechui-dev-07467-unauthRole",
+			"StackName": "amplify-raretechui-dev-07467",
+			"StackId": "arn:aws:cloudformation:ap-northeast-1:881490128743:stack/amplify-raretechui-dev-07467/27b0df90-7528-11f0-bf74-0ac9c81514d9",
+			"AmplifyAppId": "d2h1u0k5gwqztd"
+		},
+		"categories": {
+			"auth": {
+				"raretechuid71b5cf2": {}
+			}
+		}
+	}
+}

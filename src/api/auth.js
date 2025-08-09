@@ -1,5 +1,8 @@
+import { Auth } from "aws-amplify";
+
 const API_BASE_URL =
-	import.meta.env.VITE_API_BASE_URL || "http://localhost:8000";
+	import.meta.env.VITE_API_BASE_URL ||
+	"https://9bhgi68n14.execute-api.ap-northeast-1.amazonaws.com/Prod";
 
 // 認証付きのfetchリクエスト
 export const authenticatedFetch = async (url, options = {}) => {
@@ -30,24 +33,16 @@ export const authenticatedFetch = async (url, options = {}) => {
 
 // ログイン
 export const login = async (email, password) => {
-	const formData = new FormData();
-	formData.append("username", email);
-	formData.append("password", password);
-
-	const response = await fetch(`${API_BASE_URL}/api/auth/login`, {
-		method: "POST",
-		body: formData,
-	});
-
-	if (!response.ok) {
-		if (response.status === 401) {
+	try {
+		const user = await Auth.signIn(email, password);
+		const session = await Auth.currentSession();
+		const idToken = session.getIdToken().getJwtToken();
+		localStorage.setItem("access_token", idToken);
+		return user;
+	} catch (error) {
+		if (error.code === "NotAuthorizedException") {
 			throw new Error("メールアドレスまたはパスワードが間違っています");
 		}
 		throw new Error("ログインに失敗しました");
 	}
-
-	const data = await response.json();
-	localStorage.setItem("access_token", data.access_token);
-
-	return data;
 };

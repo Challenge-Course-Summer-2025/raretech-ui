@@ -7,3 +7,13 @@
 - [x] Biome
 
 
+ローカルで動かすには？
+bun install
+bun run dev
+
+
+EC2で動かすには？
+curl -fsSL https://bun.sh/install | bash
+export PATH="$HOME/.bun/bin:$PATH"
+bun install
+bun run dev -- --host 0.0.0.0
