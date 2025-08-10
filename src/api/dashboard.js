@@ -1,7 +1,7 @@
 import { authenticatedFetch } from "./auth";
 
 const API_BASE_URL =
-	import.meta.env.VITE_API_BASE_URL || "http://localhost:8000";
+	import.meta.env.VITE_API_BASE_URL || "https://vag9kbhlcd.execute-api.ap-northeast-1.amazonaws.com/Prod/";
 
 export const fetchDashboardData = async () => {
 	try {
