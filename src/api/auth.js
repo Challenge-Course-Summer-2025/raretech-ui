@@ -1,5 +1,6 @@
 const API_BASE_URL =
-	import.meta.env.VITE_API_BASE_URL || "https://vag9kbhlcd.execute-api.ap-northeast-1.amazonaws.com/Prod";
+	import.meta.env.VITE_API_BASE_URL ||
+	"https://3k0nx7bmae.execute-api.ap-northeast-1.amazonaws.com/Prod";
 
 // 認証付きのfetchリクエスト
 export const authenticatedFetch = async (url, options = {}) => {
