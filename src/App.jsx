@@ -13,7 +13,7 @@ import MainLayout from "./components/MainLayout";
 
 // 認証が必要なルートを保護するコンポーネント
 const ProtectedRoute = ({ children }) => {
-	return localStorage.getItem("access_token") ? (
+	return sessionStorage.getItem("accessToken") ? (
 		children
 	) : (
 		<Navigate to="/login" replace />
@@ -28,7 +28,7 @@ const App = () => {
 					<Route
 						path="/login"
 						element={
-							localStorage.getItem("access_token") ? (
+							localStorage.getItem("accessToken") ? (
 								<Navigate to="/" replace />
 							) : (
 								<LoginPage />
