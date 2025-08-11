@@ -4,7 +4,7 @@ const API_BASE_URL =
 
 // 認証付きのfetchリクエスト
 export const authenticatedFetch = async (url, options = {}) => {
-	const token = localStorage.getItem("id_token"); // ←ここをid_tokenに変更
+	const token = localStorage.getItem("access_token");
 
 	if (!token) {
 		throw new Error("認証が必要です。ログインしてください。");
@@ -22,7 +22,7 @@ export const authenticatedFetch = async (url, options = {}) => {
 	});
 
 	if (response.status === 401) {
-		localStorage.removeItem("id_token"); // ここもid_tokenに
+		localStorage.removeItem("access_token");
 		throw new Error("認証が必要です。ログインしてください。");
 	}
 
