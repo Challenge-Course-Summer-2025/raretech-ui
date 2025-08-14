@@ -28,7 +28,7 @@ const App = () => {
 					<Route
 						path="/login"
 						element={
-							localStorage.getItem("accessToken") ? (
+							sessionStorage.getItem("accessToken") ? (
 								<Navigate to="/" replace />
 							) : (
 								<LoginPage />
