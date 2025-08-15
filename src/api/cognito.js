@@ -18,6 +18,29 @@ Amplify.configure({
 });
 
 /**
+ * トークンをsessionStorageに保存する
+ * @param {Object} tokens - トークンオブジェクト
+ */
+const saveTokensToSessionStorage = (tokens) => {
+	console.log("Saving tokens to sessionStorage...");
+
+	if (tokens.accessToken) {
+		sessionStorage.setItem("accessToken", tokens.accessToken);
+		console.log("Access token saved to sessionStorage");
+	}
+
+	if (tokens.idToken) {
+		sessionStorage.setItem("idToken", tokens.idToken);
+		console.log("ID token saved to sessionStorage");
+	}
+
+	if (tokens.refreshToken) {
+		sessionStorage.setItem("refreshToken", tokens.refreshToken);
+		console.log("Refresh token saved to sessionStorage");
+	}
+};
+
+/**
  * 現在のセッションをクリアする
  * @returns {Promise<void>}
  */
@@ -28,6 +51,7 @@ export const clearCurrentSession = async () => {
 		sessionStorage.removeItem("accessToken");
 		sessionStorage.removeItem("idToken");
 		sessionStorage.removeItem("refreshToken");
+		console.log("Session cleared successfully");
 	} catch (error) {
 		console.error("Clear session error:", error);
 		// エラーが発生してもセッションストレージはクリア
@@ -59,11 +83,18 @@ export const loginUser = async (email, password) => {
 		if (result.isSignedIn) {
 			const session = await fetchAuthSession();
 
-			return {
-				success: true,
+			const tokens = {
 				accessToken: session.tokens?.accessToken?.toString(),
 				idToken: session.tokens?.idToken?.toString(),
 				refreshToken: session.tokens?.refreshToken?.toString(),
+			};
+
+			// sessionStorageに保存
+			saveTokensToSessionStorage(tokens);
+
+			return {
+				success: true,
+				...tokens,
 				user: result.user,
 			};
 		}
@@ -77,9 +108,8 @@ export const loginUser = async (email, password) => {
 				success: false,
 				requiresNewPassword: true,
 				nextStep: result.nextStep,
-				// Amplify v6では、signInの結果をそのまま保持する必要がある
+				// Amplify v6では、signInの結果をそのまま保持する必要があるらしいです
 				signInResult: result,
-				// 必要な属性情報も保持
 				requiredAttributes: result.nextStep?.missingAttributes || [],
 			};
 		}
@@ -113,8 +143,6 @@ export const loginUser = async (email, password) => {
 			try {
 				// 既存のセッションをクリアして再試行
 				await clearCurrentSession();
-
-				// 少し待ってから再試行
 				await new Promise((resolve) => setTimeout(resolve, 1000));
 
 				const retryResult = await signIn({
@@ -124,11 +152,18 @@ export const loginUser = async (email, password) => {
 
 				if (retryResult.isSignedIn) {
 					const session = await fetchAuthSession();
-					return {
-						success: true,
+
+					const tokens = {
 						accessToken: session.tokens?.accessToken?.toString(),
 						idToken: session.tokens?.idToken?.toString(),
 						refreshToken: session.tokens?.refreshToken?.toString(),
+					};
+
+					saveTokensToSessionStorage(tokens);
+
+					return {
+						success: true,
+						...tokens,
 						user: retryResult.user,
 					};
 				}
@@ -147,7 +182,6 @@ export const loginUser = async (email, password) => {
 			}
 		}
 
-		// エラーを日本語メッセージに変換
 		return {
 			success: false,
 			error: getJapaneseErrorMessage(error),
@@ -179,11 +213,18 @@ export const completeNewPassword = async (newPassword, userAttributes = {}) => {
 
 		if (result.isSignedIn) {
 			const session = await fetchAuthSession();
-			return {
-				success: true,
+
+			const tokens = {
 				accessToken: session.tokens?.accessToken?.toString(),
 				idToken: session.tokens?.idToken?.toString(),
 				refreshToken: session.tokens?.refreshToken?.toString(),
+			};
+
+			saveTokensToSessionStorage(tokens);
+
+			return {
+				success: true,
+				...tokens,
 				user: result.user,
 				isNewPasswordComplete: true, // パスワード変更完了フラグ
 			};
@@ -255,11 +296,18 @@ export const confirmMFACode = async (code) => {
 
 		if (result.isSignedIn) {
 			const session = await fetchAuthSession();
-			return {
-				success: true,
+
+			const tokens = {
 				accessToken: session.tokens?.accessToken?.toString(),
 				idToken: session.tokens?.idToken?.toString(),
 				refreshToken: session.tokens?.refreshToken?.toString(),
+			};
+
+			saveTokensToSessionStorage(tokens);
+
+			return {
+				success: true,
+				...tokens,
 				user: result.user,
 			};
 		}
@@ -328,12 +376,17 @@ export const getCurrentSession = async () => {
 		const session = await fetchAuthSession();
 
 		if (session.tokens?.accessToken) {
-			return {
+			const tokens = {
 				accessToken: session.tokens.accessToken.toString(),
 				idToken: session.tokens.idToken?.toString(),
 				refreshToken: session.tokens.refreshToken?.toString(),
 				isValid: true,
 			};
+
+			// sessionStorageにも保存（同期を保つため）
+			saveTokensToSessionStorage(tokens);
+
+			return tokens;
 		}
 
 		return null;
@@ -361,7 +414,6 @@ export const getCurrentUser = async () => {
 				email: payload.email,
 				email_verified: payload.email_verified,
 				name: payload.name,
-				// その他の属性も必要に応じて追加する
 			};
 		}
 
@@ -385,7 +437,7 @@ const getJapaneseErrorMessage = (error) => {
 		code: error.code,
 		message: error.message,
 		error: error,
-	}); // デバッグ用
+	}); // デバッグ用(あとで削除します)
 
 	switch (errorCode) {
 		case "UserNotFoundException":
