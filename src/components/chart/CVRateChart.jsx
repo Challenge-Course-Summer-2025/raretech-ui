@@ -10,15 +10,19 @@ import {
 } from "recharts";
 import { cvData } from "../../data/cvRate";
 
-function CVRateChart() {
-	const avgCVRate = (
-		cvData.reduce((sum, item) => sum + item.cvRate, 0) / cvData.length
-	).toFixed(1);
-	const totalConversions = cvData.reduce(
-		(sum, item) => sum + item.conversions,
-		0,
-	);
-	const latestCVRate = cvData[cvData.length - 1].cvRate;
+function CVRateChart({ metricsData }) {
+	// APIデータがある場合は使用、なければサンプルデータ
+	const avgCVRate =
+		metricsData?.ctr ||
+		(
+			cvData.reduce((sum, item) => sum + item.cvRate, 0) / cvData.length
+		).toFixed(1);
+
+	const totalConversions =
+		metricsData?.total_clicks ||
+		cvData.reduce((sum, item) => sum + item.conversions, 0);
+
+	const latestCVRate = metricsData?.ctr || cvData[cvData.length - 1].cvRate;
 
 	return (
 		<div className="w-full p-6">
@@ -28,21 +32,21 @@ function CVRateChart() {
 					<div className="text-3xl font-bold text-green-600 mb-2">
 						{avgCVRate}%
 					</div>
-					<div className="text-gray-600">平均CV率</div>
+					<div className="text-gray-600">平均クリック率</div>
 				</div>
 
 				<div className="bg-white p-6 rounded-lg shadow-md text-center">
 					<div className="text-3xl font-bold text-blue-600 mb-2">
 						{totalConversions.toLocaleString()}
 					</div>
-					<div className="text-gray-600">総コンバージョン数</div>
+					<div className="text-gray-600">総クリック数</div>
 				</div>
 
 				<div className="bg-white p-6 rounded-lg shadow-md text-center">
 					<div className="text-3xl font-bold text-blue-600 mb-2">
-						{latestCVRate}%
+						{metricsData?.total_posts || 0}
 					</div>
-					<div className="text-gray-600">今月のCV率</div>
+					<div className="text-gray-600">総投稿数</div>
 				</div>
 			</div>
 
@@ -59,7 +63,7 @@ function CVRateChart() {
 							type="monotone"
 							dataKey="cvRate"
 							stroke="#2563eb"
-							name="CV率 (%)"
+							name="クリック率 (%)"
 						/>
 					</LineChart>
 				</ResponsiveContainer>
