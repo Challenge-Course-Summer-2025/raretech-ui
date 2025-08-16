@@ -10,10 +10,12 @@ import {
 } from "recharts";
 import { likesData } from "../../data/likesData";
 
-function LikeTrendChart() {
+function LikeTrendChart({ metricsData }) {
+	// 現在のAPIにはいいね数データがないため、サンプルデータを使用
+	// 将来的にAPIが拡張されたらmetricsDataを使用
 	return (
 		<div style={{ width: "100%", height: 400 }}>
-			<h2>いいね数</h2>
+			<h2>いいね数（サンプルデータ）</h2>
 			<ResponsiveContainer>
 				<LineChart data={likesData}>
 					<CartesianGrid strokeDasharray="3 3" />
