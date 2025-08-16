@@ -4,27 +4,29 @@ import DailyStats from "../components/DailyStats";
 import { fetchXPostHistoryData } from "../api/xposthistory";
 
 const XPostHistory = () => {
-	const [dashboardData, setDashboardData] = useState(null);
+	const [postData, setPostData] = useState(null);
 	const [loading, setLoading] = useState(true);
 	const [error, setError] = useState(null);
+	const [currentPage, setCurrentPage] = useState(1);
+	const limit = 10;
 
 	useEffect(() => {
-		const loadDashboardData = async () => {
+		const loadPostData = async () => {
 			try {
 				setLoading(true);
-				const data = await fetchXPostHistoryData();
-				setDashboardData(data);
+				const data = await fetchXPostHistoryData(currentPage, limit);
+				setPostData(data);
 				setError(null);
 			} catch (err) {
 				setError("データの取得に失敗しました");
-				console.error("Failed to load dashboard data:", err);
+				console.error("Failed to load post data:", err);
 			} finally {
 				setLoading(false);
 			}
 		};
 
-		loadDashboardData();
-	}, []);
+		loadPostData();
+	}, [currentPage]);
 
 	if (loading) {
 		return (
@@ -42,16 +44,43 @@ const XPostHistory = () => {
 		);
 	}
 
-	const postHistory = dashboardData?.latest_posts || [];
-	const summary = dashboardData?.summary || {};
+	const postHistory = postData?.posts || [];
+	const totalPages = Math.ceil((postData?.total || 0) / limit);
+
+	const handlePageChange = (page) => {
+		setCurrentPage(page);
+	};
 
 	return (
 		<main className="container mx-auto p-6">
-			<DailyStats
-				postsCount={summary.total_posts || 0}
-				totalClicks={summary.total_clicks || 0}
-			/>
+			<DailyStats postsCount={postData?.total || 0} totalClicks={0} />
 			<PostHistory postHistory={postHistory} />
+
+			{totalPages > 1 && (
+				<div className="flex justify-center items-center mt-6 space-x-2">
+					<button
+						type="button"
+						onClick={() => handlePageChange(currentPage - 1)}
+						disabled={currentPage === 1}
+						className="px-3 py-2 bg-gray-200 text-gray-600 rounded disabled:opacity-50 disabled:cursor-not-allowed hover:bg-gray-300"
+					>
+						前へ
+					</button>
+
+					<span className="px-4 py-2 text-sm text-gray-600">
+						{currentPage} / {totalPages}
+					</span>
+
+					<button
+						type="button"
+						onClick={() => handlePageChange(currentPage + 1)}
+						disabled={currentPage === totalPages}
+						className="px-3 py-2 bg-gray-200 text-gray-600 rounded disabled:opacity-50 disabled:cursor-not-allowed hover:bg-gray-300"
+					>
+						次へ
+					</button>
+				</div>
+			)}
 		</main>
 	);
 };
