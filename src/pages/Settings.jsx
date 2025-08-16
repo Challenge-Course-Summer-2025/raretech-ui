@@ -1,90 +1,126 @@
-import { useState } from "react";
+import { useState, useEffect, useCallback } from "react";
 import { PlusCircle } from "lucide-react";
 import { TemplateForm } from "../components/settings/Templateform";
 import { TemplateItem } from "../components/settings/TemplateItem";
 import { DeleteDialog } from "../components/settings/DeleteDialog";
+import {
+	fetchTemplates,
+	createTemplate,
+	updateTemplate,
+	deleteTemplate,
+} from "../api/templates";
 
 const Settings = () => {
-	// サンプルデータ
-	// TODO: DyanamoDBからデータを取得する
-	const sampleTemplates = [
-		{
-			id: "1",
-			content:
-				"🎉 RareTECH受講生の{投稿者名}さんの技術記事をご紹介！\n「{記事タイトル}」\nAWSでサーバーレスな実行環境を構築💪",
-			isActive: true,
-			createdAt: "2025-04-15",
-			updatedAt: "2025-04-20",
-		},
-		{
-			id: "2",
-			content:
-				"📚 新着記事のお知らせ\n{投稿者名}さんによる「{記事タイトル}」\n詳細はリンクをチェック！",
-			isActive: false,
-			createdAt: "2025-07-10",
-			updatedAt: "2024-07-18",
-		},
-	];
-
-	const [templates, setTemplates] = useState(sampleTemplates);
+	const [templates, setTemplates] = useState([]);
+	const [loading, setLoading] = useState(true);
+	const [error, setError] = useState(null);
 	const [showForm, setShowForm] = useState(false);
 	const [editingTemplate, setEditingTemplate] = useState(null);
 	const [formContent, setFormContent] = useState("");
 	const [deleteTargetId, setDeleteTargetId] = useState(null);
 
+	const loadTemplates = useCallback(async () => {
+		try {
+			setLoading(true);
+			const data = await fetchTemplates();
+			setTemplates(data);
+			setError(null);
+		} catch (err) {
+			setError("テンプレートの取得に失敗しました");
+			console.error("Failed to load templates:", err);
+		} finally {
+			setLoading(false);
+		}
+	}, []);
+
+	useEffect(() => {
+		loadTemplates();
+	}, [loadTemplates]);
+
 	// 新規作成処理
-	const handleCreate = () => {
+	const handleCreate = async () => {
 		if (!formContent.trim()) return;
 
-		const newTemplate = {
-			id: Date.now().toString(),
-			content: formContent,
-			isActive: false,
-			createdAt: new Date().toISOString().split("T")[0],
-			updatedAt: new Date().toISOString().split("T")[0],
-		};
+		try {
+			const templateData = {
+				content: formContent,
+				isActive: false,
+			};
 
-		setTemplates([...templates, newTemplate]);
-		setFormContent("");
-		setShowForm(false);
+			await createTemplate(templateData);
+			await loadTemplates(); // データを再読み込み
+			setFormContent("");
+			setShowForm(false);
+		} catch (err) {
+			setError("テンプレートの作成に失敗しました");
+			console.error("Failed to create template:", err);
+		}
 	};
 
 	// 更新処理
-	const handleUpdate = () => {
+	const handleUpdate = async () => {
 		if (!formContent.trim() || !editingTemplate) return;
 
-		const updatedTemplates = templates.map((template) =>
-			template.id === editingTemplate.id
-				? {
-						...template,
-						content: formContent,
-						updatedAt: new Date().toISOString().split("T")[0],
-					}
-				: template,
-		);
+		try {
+			const templateData = {
+				content: formContent,
+				isActive: editingTemplate.isActive,
+			};
 
-		setTemplates(updatedTemplates);
-		setEditingTemplate(null);
-		setFormContent("");
-		setShowForm(false);
+			await updateTemplate(editingTemplate.id, templateData);
+			await loadTemplates(); // データを再読み込み
+			setEditingTemplate(null);
+			setFormContent("");
+			setShowForm(false);
+		} catch (err) {
+			setError("テンプレートの更新に失敗しました");
+			console.error("Failed to update template:", err);
+		}
 	};
 
 	// 有効化処理のハンドラー
-	const handleActivate = (targetId) => {
-		const updatedTemplates = templates.map((template) => ({
-			...template,
-			isActive: template.id === targetId,
-		}));
-		setTemplates(updatedTemplates);
+	const handleActivate = async (targetId) => {
+		try {
+			const targetTemplate = templates.find((t) => t.id === targetId);
+			if (!targetTemplate) return;
+
+			const templateData = {
+				content: targetTemplate.content,
+				isActive: true,
+			};
+
+			await updateTemplate(targetId, templateData);
+
+			// 他のテンプレートを無効化
+			const otherTemplates = templates.filter((t) => t.id !== targetId);
+			for (const template of otherTemplates) {
+				if (template.isActive) {
+					await updateTemplate(template.id, {
+						content: template.content,
+						isActive: false,
+					});
+				}
+			}
+
+			await loadTemplates(); // データを再読み込み
+		} catch (err) {
+			setError("テンプレートの有効化に失敗しました");
+			console.error("Failed to activate template:", err);
+		}
 	};
 
 	// 削除処理のハンドラー
-	const handleDelete = () => {
-		const updatedTemplates = templates.filter(
-			(template) => template.id !== deleteTargetId,
-		);
-		setTemplates(updatedTemplates);
-		setDeleteTargetId(null);
+	const handleDelete = async () => {
+		if (!deleteTargetId) return;
+
+		try {
+			await deleteTemplate(deleteTargetId);
+			await loadTemplates(); // データを再読み込み
+			setDeleteTargetId(null);
+		} catch (err) {
+			setError("テンプレートの削除に失敗しました");
+			console.error("Failed to delete template:", err);
+		}
 	};
 
 	// 編集開始
@@ -100,6 +136,31 @@ const Settings = () => {
 		setEditingTemplate(null);
 		setFormContent("");
 	};
+
+	if (loading) {
+		return (
+			<div className="container mx-auto p-6">
+				<div className="text-center">読み込み中...</div>
+			</div>
+		);
+	}
+
+	if (error) {
+		return (
+			<div className="container mx-auto p-6">
+				<div className="text-center text-red-500 mb-4">{error}</div>
+				<div className="text-center">
+					<button
+						type="button"
+						onClick={loadTemplates}
+						className="bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700"
+					>
+						再試行
+					</button>
+				</div>
+			</div>
+		);
+	}
 
 	return (
 		<div className="container mx-auto p-6">
