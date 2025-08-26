@@ -11,13 +11,13 @@ export const TemplateItem = ({ template, onActivate, onEdit, onDelete }) => {
 							<input
 								type="radio"
 								name="activeTemplate"
-								checked={template.isActive}
+								checked={template.is_active === 1}
 								onChange={() => onActivate(template.id)}
 								className="w-4 h-4 text-blue-600 focus:ring-blue-500"
 							/>
 							<span className="text-sm font-medium text-gray-700">有効化</span>
 						</div>
-						{template.isActive && (
+						{template.is_active === 1 && (
 							<span className="bg-green-100 text-green-800 text-xs font-medium px-2.5 py-0.5 rounded-full">
 								有効
 							</span>
@@ -27,14 +27,14 @@ export const TemplateItem = ({ template, onActivate, onEdit, onDelete }) => {
 					{/* テンプレート内容 */}
 					<div className="bg-gray-50 p-4 rounded-lg mb-3">
 						<pre className="text-sm text-gray-800 whitespace-pre-wrap font-mono">
-							{template.content}
+							{template.Template}
 						</pre>
 					</div>
 
 					{/* 日付情報 */}
 					<div className="flex gap-4 text-xs text-gray-500">
-						<span>作成日: {template.createdAt}</span>
-						<span>更新日: {template.updatedAt}</span>
+						<span>作成日: {template.created_at}</span>
+						<span>更新日: {template.updated_at}</span>
 					</div>
 				</div>
 

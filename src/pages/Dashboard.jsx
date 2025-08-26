@@ -30,7 +30,7 @@ const Dashboard = () => {
 			id: "stats-1",
 			type: "status",
 			label: "Qiita記事チェック",
-			value: "15分毎実行",
+			value: "8, 12, 20時に実行",
 			valueColor: "text-blue-600",
 		},
 		{
@@ -63,6 +63,7 @@ const Dashboard = () => {
 			time: new Date(post.created_at).toLocaleTimeString("ja-JP", {
 				hour: "2-digit",
 				minute: "2-digit",
+				timeZone: "Asia/Tokyo",
 			}),
 			title: post.title,
 			author: post.author || "不明",
