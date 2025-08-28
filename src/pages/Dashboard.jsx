@@ -67,7 +67,7 @@ const Dashboard = () => {
 			}),
 			title: post.title,
 			author: post.author || "不明",
-			clicks: `クリック${post.click_count || 0}件`,
+			clicks: `クリック${post.clicks_article || 0}件`,
 		})) || [];
 
 	if (loading) {
