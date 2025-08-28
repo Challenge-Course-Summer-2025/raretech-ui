@@ -43,8 +43,8 @@ const Settings = () => {
 
 		try {
 			const templateData = {
-				content: formContent,
-				isActive: false,
+				template: formContent,
+				is_active: 0, // 新規は未有効
 			};
 
 			await createTemplate(templateData);
@@ -63,8 +63,8 @@ const Settings = () => {
 
 		try {
 			const templateData = {
-				content: formContent,
-				isActive: editingTemplate.isActive,
+				template: formContent,
+				is_active: editingTemplate.is_active,
 			};
 
 			await updateTemplate(editingTemplate.id, templateData);
@@ -85,8 +85,8 @@ const Settings = () => {
 			if (!targetTemplate) return;
 
 			const templateData = {
-				content: targetTemplate.content,
-				isActive: true,
+				template: targetTemplate.template,
+				is_active: 1,
 			};
 
 			await updateTemplate(targetId, templateData);
@@ -94,10 +94,10 @@ const Settings = () => {
 			// 他のテンプレートを無効化
 			const otherTemplates = templates.filter((t) => t.id !== targetId);
 			for (const template of otherTemplates) {
-				if (template.isActive) {
+				if (template.is_active === 1) {
 					await updateTemplate(template.id, {
-						content: template.content,
-						isActive: false,
+						template: template.template,
+						is_active: 0,
 					});
 				}
 			}
@@ -126,7 +126,7 @@ const Settings = () => {
 	// 編集開始
 	const startEdit = (template) => {
 		setEditingTemplate(template);
-		setFormContent(template.content);
+		setFormContent(template.template);
 		setShowForm(true);
 	};
 
