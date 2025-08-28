@@ -1,5 +1,5 @@
 export const TemplateForm = ({
-	content,
+	template,
 	onChange,
 	onSave,
 	onCancel,
@@ -14,7 +14,7 @@ export const TemplateForm = ({
 			<div className="space-y-4">
 				<div>
 					<textarea
-						value={content}
+						value={template}
 						onChange={(e) => onChange(e.target.value)}
 						placeholder="投稿テンプレートを入力してください。{投稿者名}、{記事タイトル}などの変数が使用できます。"
 						className="w-full h-32 p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent resize-none"
