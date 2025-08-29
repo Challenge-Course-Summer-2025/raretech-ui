@@ -27,7 +27,7 @@ export const TemplateItem = ({ template, onActivate, onEdit, onDelete }) => {
 					{/* テンプレート内容 */}
 					<div className="bg-gray-50 p-4 rounded-lg mb-3">
 						<pre className="text-sm text-gray-800 whitespace-pre-wrap font-mono">
-							{template.Template}
+							{template.template}
 						</pre>
 					</div>
 
