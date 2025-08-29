@@ -1,11 +1,19 @@
 import { Edit2, Trash2 } from "lucide-react";
 
+// 日付フォーマット関数
+const formatDate = (dateStr) => {
+	if (!dateStr) return "";
+	// ISO文字列を Date に変換してから YYYY-MM-DD だけに整形
+	const date = new Date(dateStr);
+	return date.toISOString().split("T")[0];
+};
+
 export const TemplateItem = ({ template, onActivate, onEdit, onDelete }) => {
 	return (
 		<div className="border border-gray-200 rounded-lg p-4">
 			<div className="flex items-start justify-between">
 				<div className="flex-1">
-					{/* 有効化ラジオボタンとバッジの実装 */}
+					{/* 有効化ラジオボタンとバッジ */}
 					<div className="flex items-center gap-3 mb-3">
 						<div className="flex items-center gap-2">
 							<input
@@ -33,12 +41,12 @@ export const TemplateItem = ({ template, onActivate, onEdit, onDelete }) => {
 
 					{/* 日付情報 */}
 					<div className="flex gap-4 text-xs text-gray-500">
-						<span>作成日: {template.created_at}</span>
-						<span>更新日: {template.updated_at}</span>
+						<span>作成日: {formatDate(template.created_at)}</span>
+						<span>更新日: {formatDate(template.updated_at)}</span>
 					</div>
 				</div>
 
-				{/* 編集セクション */}
+				{/* 編集・削除ボタン */}
 				<div className="flex gap-2 ml-4">
 					<button
 						type="button"
