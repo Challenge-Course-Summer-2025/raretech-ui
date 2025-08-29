@@ -47,17 +47,15 @@ const saveTokensToSessionStorage = (tokens) => {
 export const clearCurrentSession = async () => {
 	try {
 		await signOut();
-		// セッションストレージもクリア
-		sessionStorage.removeItem("accessToken");
-		sessionStorage.removeItem("idToken");
-		sessionStorage.removeItem("refreshToken");
+		// セッションストレージとローカルストレージをクリア
+		sessionStorage.clear();
+		localStorage.clear();
 		console.log("Session cleared successfully");
 	} catch (error) {
 		console.error("Clear session error:", error);
-		// エラーが発生してもセッションストレージはクリア
-		sessionStorage.removeItem("accessToken");
-		sessionStorage.removeItem("idToken");
-		sessionStorage.removeItem("refreshToken");
+		// エラーが発生してもストレージはクリア
+		sessionStorage.clear();
+		localStorage.clear();
 	}
 };
 
@@ -276,7 +274,7 @@ export const completeNewPassword = async (newPassword, userAttributes = {}) => {
 export const completeNewPasswordWithName = async (newPassword, name) => {
 	const userAttributes = {};
 
-	if (name && name.trim()) {
+	if (name?.trim()) {
 		userAttributes.name = name.trim();
 	}
 
@@ -333,19 +331,17 @@ export const confirmMFACode = async (code) => {
 export const logoutUser = async () => {
 	try {
 		await signOut();
-		// セッションストレージもクリア
-		sessionStorage.removeItem("accessToken");
-		sessionStorage.removeItem("idToken");
-		sessionStorage.removeItem("refreshToken");
+		// セッションストレージとローカルストレージをクリア
+		sessionStorage.clear();
+		localStorage.clear();
 		return {
 			success: true,
 		};
 	} catch (error) {
 		console.error("Logout error:", error);
-		// エラーが発生してもセッションストレージはクリア
-		sessionStorage.removeItem("accessToken");
-		sessionStorage.removeItem("idToken");
-		sessionStorage.removeItem("refreshToken");
+		// エラーが発生してもストレージはクリア
+		sessionStorage.clear();
+		localStorage.clear();
 		return {
 			success: false,
 			error: getJapaneseErrorMessage(error),
@@ -451,7 +447,7 @@ const getJapaneseErrorMessage = (error) => {
 			return "ログイン試行回数が上限を超えました。しばらく時間をおいてからお試しください。";
 
 		case "InvalidParameterException":
-			if (error.message && error.message.includes("name is missing")) {
+			if (error.message?.includes("name is missing")) {
 				return "ユーザー名の設定が必要です。管理者にお問い合わせください。";
 			}
 			return "入力内容に不正な値が含まれています。";
