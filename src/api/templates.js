@@ -90,3 +90,22 @@ export const deleteTemplate = async (templateId) => {
 		throw error;
 	}
 };
+
+// 個別テンプレート取得
+export const fetchTemplateById = async (templateId) => {
+	try {
+		const response = await authenticatedFetch(
+			`${API_BASE_URL}/api/templates/${templateId}`,
+		);
+
+		if (!response.ok) {
+			throw new Error(`HTTP error! status: ${response.status}`);
+		}
+
+		const data = await response.json();
+		return data;
+	} catch (error) {
+		console.error("Failed to fetch template:", error);
+		throw error;
+	}
+};
