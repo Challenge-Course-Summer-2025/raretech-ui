@@ -53,7 +53,10 @@ const XPostHistory = () => {
 
 	return (
 		<main className="container mx-auto p-6">
-			<DailyStats postsCount={postData?.total || 0} totalClicks={0} />
+			<DailyStats
+				postsCount={postData?.total || 0}
+				totalClicks={postData?.total_clicks || 0}
+			/>
 			<PostHistory postHistory={postHistory} />
 
 			{totalPages > 1 && (
