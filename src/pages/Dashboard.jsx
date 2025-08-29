@@ -126,7 +126,7 @@ const Dashboard = () => {
 					<div className="text-blue-600 mt-1">💡</div>
 					<div className="text-sm text-blue-800">
 						<strong>システム概要:</strong>{" "}
-						RareTECH受講生のQiita記事を15分毎に自動検出し、テンプレートに基づいてX（旧Twitter）に自動投稿します。投稿には体験授業予約リンクが含まれます。
+						RareTECH受講生のQiita記事を、1日3回自動で検出し、テンプレートに基づいてX（旧Twitter）へ投稿します。投稿には体験授業予約リンクが含まれます。
 					</div>
 				</div>
 			</div>
