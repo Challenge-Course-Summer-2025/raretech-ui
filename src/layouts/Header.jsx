@@ -6,7 +6,9 @@ const Header = () => {
 				{/* ロゴとタイトル部分 */}
 				<div className="flex items-center space-x-3 mask-radial-at-center">
 					<div>
-						<img src={RareTech} alt="RareTECHLogo" className="h-10 w-auto" />
+						<a href="/">
+							<img src={RareTech} alt="RareTECHLogo" className="h-10 w-auto" />
+						</a>
 					</div>
 					<div>
 						<h1 className="text-2xl font-bold">RareTECH</h1>
