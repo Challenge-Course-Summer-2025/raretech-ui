@@ -2,7 +2,7 @@ const InfoCard = ({ title, items }) => {
 	return (
 		<div className="bg-white p-6 rounded-lg shadow-md">
 			<h3 className="text-lg font-semibold mb-4 flex items-center">{title}</h3>
-			<div className="space-y-3">
+			<div className="divide-y max-h-72 overflow-y-auto">
 				{items.map((item) => (
 					<div key={item.id} className="flex justify-between items-center">
 						{item.type === "status" ? (
