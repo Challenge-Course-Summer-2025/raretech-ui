@@ -4,8 +4,7 @@ const InfoCard = ({ title, items }) => {
 			<h3 className="text-lg font-semibold mb-4 flex items-center">{title}</h3>
 			<div
 				className={
-					"divide-y" +
-					(title === "📊 直近の投稿効果" ? " max-h-72 overflow-y-auto" : "")
+					title === "📊 直近の投稿効果" ? "max-h-72 overflow-y-auto" : ""
 				}
 			>
 				{items.map((item) => (
