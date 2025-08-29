@@ -1,4 +1,17 @@
 const TwitterPreview = ({ post }) => {
+	// created_atから時刻を抽出
+	const getTimeFromCreatedAt = (createdAt) => {
+		try {
+			const date = new Date(createdAt);
+			return date.toLocaleTimeString("ja-JP", {
+				hour: "2-digit",
+				minute: "2-digit",
+			});
+		} catch (error) {
+			return "00:00";
+		}
+	};
+
 	return (
 		<div className="flex flex-col bg-gray-100 border border-sky-200 rounded-lg shadow-md text-sm mt-3 mb-3 space-y-4 p-6">
 			<div className="flex items-center space-x-4">
@@ -6,8 +19,10 @@ const TwitterPreview = ({ post }) => {
 					RT
 				</div>
 				<div className="flex flex-col">
-					<span className="font-semibold">@RareTECH_jp</span>
-					<span className="text-gray-500 text-xs">14:30</span>
+					<span className="font-semibold">@RareTech192030</span>
+					<span className="text-gray-500 text-xs">
+						{getTimeFromCreatedAt(post.created_at)}
+					</span>
 				</div>
 			</div>
 			<div className="flex flex-col pb-2">

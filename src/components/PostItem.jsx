@@ -2,6 +2,19 @@ import TwitterPreview from "./TwitterPreview";
 import PostStats from "./PostStats";
 
 const PostItem = ({ post, isLatest }) => {
+	// created_atから時刻を抽出
+	const getTimeFromCreatedAt = (createdAt) => {
+		try {
+			const date = new Date(createdAt);
+			return date.toLocaleTimeString("ja-JP", {
+				hour: "2-digit",
+				minute: "2-digit",
+			});
+		} catch (error) {
+			return "00:00";
+		}
+	};
+
 	return (
 		<div
 			key={post.id}
@@ -10,7 +23,9 @@ const PostItem = ({ post, isLatest }) => {
 			<div className="flex flex-grow space-x-16 mb-2">
 				<div className="w-1/12">
 					<div className="flex items-center justify-center space-x-4 mb-1">
-						<span className="text-sm text-gray-500">{post.time}</span>
+						<span className="text-sm text-gray-500">
+							{getTimeFromCreatedAt(post.created_at)}
+						</span>
 					</div>
 				</div>
 				<div className="w-10/12">
