@@ -40,20 +40,20 @@ const Dashboard = () => {
 			value: "正常",
 			valueColor: "text-green-600",
 		},
-		{
-			id: "stats-3",
-			type: "status",
-			label: "今日の投稿記事",
-			value: dashboardData?.summary?.total_posts || "0件",
-			valueColor: "text-blue-600",
-		},
-		{
-			id: "stats-4",
-			type: "status",
-			label: "投稿済み",
-			value: dashboardData?.summary?.total_posts || "0件",
-			valueColor: "text-blue-600",
-		},
+		// {
+		// 	id: "stats-3",
+		// 	type: "status",
+		// 	label: "総投稿数",
+		// 	value: dashboardData?.summary?.total_posts || "0件",
+		// 	valueColor: "text-blue-600",
+		// },
+		// {
+		// 	id: "stats-4",
+		// 	type: "status",
+		// 	label: "投稿済み",
+		// 	value: dashboardData?.summary?.total_posts || "0件",
+		// 	valueColor: "text-blue-600",
+		// },
 	];
 
 	const postPerformanceData =
@@ -98,7 +98,7 @@ const Dashboard = () => {
 			<div className="grid grid-cols-1 md:grid-cols-4 gap-6 mb-8">
 				<StatsCard
 					value={dashboardData?.summary?.total_posts?.toString() || "0"}
-					label="今月の投稿数"
+					label="総投稿数"
 				/>
 				<StatsCard
 					value={dashboardData?.summary?.total_clicks?.toString() || "0"}
